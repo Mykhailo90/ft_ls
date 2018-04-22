@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prep_g_command_line.c                              :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msarapii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 16:17:37 by msarapii          #+#    #+#             */
-/*   Updated: 2018/03/27 16:17:39 by msarapii         ###   ########.fr       */
+/*   Created: 2017/11/02 15:34:34 by msarapii          #+#    #+#             */
+/*   Updated: 2017/11/21 18:37:44 by msarapii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void				set_list_null(void)
+size_t		ft_strlcat(char *dst, const char *src, size_t size)
 {
-	ft_bzero(g_com.size, 9);
-	ft_bzero(g_com.pr, 1024);
-	ft_bzero(g_com.width, 1024);
-	ft_bzero(g_com.flags, 6);
-}
+	size_t	i;
+	size_t	dst_end;
+	size_t	k;
 
-void				read_com_str(char *str, va_list argptr)
-{
-	set_list_null();
-	search_specificator(str);
-	search_flags(str);
-	search_width(str, argptr);
-	search_pr(str);
-	search_size(str);
+	i = 0;
+	k = ft_strlen(src);
+	if (!size)
+		return (k);
+	while (dst[i] && i < size)
+		i++;
+	dst_end = i;
+	while (src[i - dst_end] && i < size - 1)
+	{
+		dst[i] = src[i - dst_end];
+		i++;
+	}
+	if (dst_end < size)
+		dst[i] = '\0';
+	return (dst_end + k);
 }

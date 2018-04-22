@@ -80,7 +80,7 @@ void				help_search(char **str, int *n)
 	char			*r;
 
 	r = NULL;
-	arg = "+-#sSpdDioOuUxXcClhLjzt0123456789. \0";
+	arg = "*+-#sSpdDioOuUxXcClhLjzt0123456789. \0";
 	*n = 0;
 	while (input_symb(arg, (*str)[*n]))
 		*n = *n + 1;
@@ -105,7 +105,7 @@ void				search_errors(char **str)
 	int				i;
 	char			*arg;
 
-	arg = "+-#sSpdDioOuUxXcClhLjzt0123456789. \0";
+	arg = "*+-#sSpdDioOuUxXcClhLjzt0123456789. \0";
 	i = 0;
 	while ((*str)[i] != g_com.specificator && (*str)[i] != '\0')
 	{

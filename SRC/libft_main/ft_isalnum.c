@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prep_g_command_line.c                              :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msarapii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 16:17:37 by msarapii          #+#    #+#             */
-/*   Updated: 2018/03/27 16:17:39 by msarapii         ###   ########.fr       */
+/*   Created: 2017/11/02 10:33:29 by msarapii          #+#    #+#             */
+/*   Updated: 2017/11/06 14:05:09 by msarapii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-void				set_list_null(void)
+int	ft_isalnum(int character)
 {
-	ft_bzero(g_com.size, 9);
-	ft_bzero(g_com.pr, 1024);
-	ft_bzero(g_com.width, 1024);
-	ft_bzero(g_com.flags, 6);
-}
-
-void				read_com_str(char *str, va_list argptr)
-{
-	set_list_null();
-	search_specificator(str);
-	search_flags(str);
-	search_width(str, argptr);
-	search_pr(str);
-	search_size(str);
+	if ((character >= 'a' && character <= 'z') ||
+		(character >= 'A' && character <= 'Z') ||
+		(character >= '0' && character <= '9'))
+		return (1);
+	return (0);
 }

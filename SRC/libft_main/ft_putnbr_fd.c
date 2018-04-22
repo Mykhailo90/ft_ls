@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prep_g_command_line.c                              :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msarapii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 16:17:37 by msarapii          #+#    #+#             */
-/*   Updated: 2018/03/27 16:17:39 by msarapii         ###   ########.fr       */
+/*   Created: 2017/11/20 14:50:35 by msarapii          #+#    #+#             */
+/*   Updated: 2017/11/21 13:54:59 by msarapii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void				set_list_null(void)
+void	ft_putnbr_fd(int n, int fd)
 {
-	ft_bzero(g_com.size, 9);
-	ft_bzero(g_com.pr, 1024);
-	ft_bzero(g_com.width, 1024);
-	ft_bzero(g_com.flags, 6);
-}
-
-void				read_com_str(char *str, va_list argptr)
-{
-	set_list_null();
-	search_specificator(str);
-	search_flags(str);
-	search_width(str, argptr);
-	search_pr(str);
-	search_size(str);
+	if (n == -2147483648)
+	{
+		ft_putstr_fd("-2147483648", fd);
+		return ;
+	}
+	if (n < 0)
+	{
+		n = -n;
+		ft_putchar_fd('-', fd);
+	}
+	if (n < 10)
+		ft_putchar_fd(n + '0', fd);
+	if (n > 9)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd(n % 10 + '0', fd);
+	}
 }

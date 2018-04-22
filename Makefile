@@ -16,25 +16,25 @@ FLAGS = -c -Wall -Wextra -Werror
 
 FT_PRINTF = libft/libftprintf.a
 
-SRC =  ./SRC/main.c ./SRC/valid_flags.c
+SRC =  ./SRC/main.c ./SRC/valid_flags.c ./SRC/help_func.c ./SRC/print_func.c
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		@ make -C libft/
-		@ gcc -o $(NAME) $(OBJ) $(FT_PRINTF)
+		@make -C libft/
+		@gcc -o $(NAME) $(OBJ) $(FT_PRINTF)
 
 %.o: %.c
-	@ gcc $(FLAGS) -o  $@ $<
+	@gcc $(FLAGS) -o  $@ $<
 
 clean:
-		@ /bin/rm -f $(OBJ)
-		@ make -C libft/ clean
+		@/bin/rm -f $(OBJ)
+		@make -C libft/ clean
 
 fclean: clean
-		@ /bin/rm -f $(NAME)
-		@ make -C libft/ fclean
+		@/bin/rm -f $(NAME)
+		@make -C libft/ fclean
 
 re: fclean all

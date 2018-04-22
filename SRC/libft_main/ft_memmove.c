@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prep_g_command_line.c                              :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msarapii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 16:17:37 by msarapii          #+#    #+#             */
-/*   Updated: 2018/03/27 16:17:39 by msarapii         ###   ########.fr       */
+/*   Created: 2017/10/31 16:05:19 by msarapii          #+#    #+#             */
+/*   Updated: 2017/11/21 14:09:59 by msarapii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void				set_list_null(void)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	ft_bzero(g_com.size, 9);
-	ft_bzero(g_com.pr, 1024);
-	ft_bzero(g_com.width, 1024);
-	ft_bzero(g_com.flags, 6);
-}
+	char	*sr;
+	char	*d1;
+	size_t	count;
 
-void				read_com_str(char *str, va_list argptr)
-{
-	set_list_null();
-	search_specificator(str);
-	search_flags(str);
-	search_width(str, argptr);
-	search_pr(str);
-	search_size(str);
+	d1 = (char *)dest;
+	sr = (char *)src;
+	count = 0;
+	if (sr < d1)
+		while (n--)
+			d1[n] = sr[n];
+	else
+		ft_memcpy(d1, sr, n);
+	return (d1);
 }

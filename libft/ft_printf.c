@@ -49,7 +49,7 @@ int					check_errors(char *str, size_t *i)
 
 void				help_f(char *str, va_list argptr)
 {
-	read_com_str(str);
+	read_com_str(str, argptr);
 	form_string(argptr, str);
 }
 

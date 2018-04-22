@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prep_g_command_line.c                              :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msarapii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 16:17:37 by msarapii          #+#    #+#             */
-/*   Updated: 2018/03/27 16:17:39 by msarapii         ###   ########.fr       */
+/*   Created: 2017/11/15 16:36:53 by msarapii          #+#    #+#             */
+/*   Updated: 2017/11/21 11:35:41 by msarapii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void				set_list_null(void)
+char	*ft_strmap(char const *s, char (*f)(char))
 {
-	ft_bzero(g_com.size, 9);
-	ft_bzero(g_com.pr, 1024);
-	ft_bzero(g_com.width, 1024);
-	ft_bzero(g_com.flags, 6);
-}
+	char		*res;
+	size_t		i;
+	size_t		j;
 
-void				read_com_str(char *str, va_list argptr)
-{
-	set_list_null();
-	search_specificator(str);
-	search_flags(str);
-	search_width(str, argptr);
-	search_pr(str);
-	search_size(str);
+	if (!s || !f)
+		return (NULL);
+	res = NULL;
+	i = 0;
+	j = 0;
+	while (s[i])
+		i++;
+	if (!(res = (char *)ft_memalloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	while (s[j])
+	{
+		res[j] = f(s[j]);
+		j++;
+	}
+	res[j] = '\0';
+	return (res);
 }

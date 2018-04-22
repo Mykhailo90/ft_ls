@@ -65,7 +65,7 @@ void					add_null(char **str);
 char					*ft_strjoin(char *s1, char *s2);
 void					search_specificator(char *str);
 void					set_list_null();
-void					read_com_str(char *str);
+void					read_com_str(char *str, va_list argptr);
 void					search_flags(char *str);
 int						search_dif_fl(char *str, char x);
 int						search_fl_n(char *str);
@@ -76,7 +76,7 @@ char					*ft_strncpy(char *dest,
 								const char *src, size_t n);
 void					ft_strdel(char **as);
 void					ft_strdel_u(unsigned char **as);
-void					search_width(char *str);
+void					search_width(char *str, va_list argptr);
 void					search_pr(char *str);
 void					search_size(char *str);
 int						is_it_size(char ch);
