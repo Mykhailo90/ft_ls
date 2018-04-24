@@ -72,11 +72,13 @@ t_dir_names			*list_dirs(char *path, t_flags *com, char *name)
 	{
 		if (errno == EACCES)
 		{
+			free(d);
 			ft_printf("ft_ls: %s: Permission denied\n", name);
 			return (NULL);
 		}
 		if (errno == ENOENT)
 		{
+			free(d);
 			return (NULL);
 		}
 		
@@ -105,42 +107,48 @@ t_dir_names			*list_dirs(char *path, t_flags *com, char *name)
 	return (d);
 }
 
-void				recurse_print(t_flags *com, char *paths, char *name)
+void				recurse_print(t_flags *com, char *path, char *name)
 {
 	int 			i;
 	char 			*tmp;
 	char 			*tmp2;
 	t_dir_names 	*d;
-	char			*path;
+	
 	//if (d->flag_f == 0)
 	// ft_printf("in rec >>\n");
 	// ft_printf("in rec >> %s\n", path);
 	d = NULL;
-	path = ft_strdup(paths);
+	tmp = NULL;
+	tmp2 = NULL;
+	
+	
 	if (is_dir(path))
-		d = help(path, com, name);
+		d = help(ft_strdup(path), com, ft_strdup(name));
+//system("leaks ft_ls");
 	if (d)
 	{
-	i = 0;
-	int z = d->len_dirs;
+		i = 0;
+		int z = d->len_dirs;
 	//printf("!!!%s\n", d->dirs[i]);
-	while (i < z)
-	{
-		if (strcmp(d->dirs[i], ".") == 0 || strcmp(d->dirs[i], "..") == 0)
+		while (i < z)
 		{
-			i++;
-			continue ;
-		}
+			if (strcmp(d->dirs[i], ".") == 0 || strcmp(d->dirs[i], "..") == 0)
+			{
+				i++;
+				continue ;
+			}
 		//printf(">>>%d<<<\n", i);
-		tmp = ft_strjoin(ft_strdup("/"), ft_strdup(d->dirs[i]));
-		name = ft_strdup(d->dirs[i]);
-		tmp2 = ft_strdup(path);
-		tmp = ft_strjoin(tmp2, tmp);
-		if (is_dir(tmp))
-		{
-			printf("\n%s:\n", tmp);
+			tmp = ft_strjoin(ft_strdup("/"), ft_strdup(d->dirs[i]));
+			if (name)
+				ft_strdel(&name);
+			name = ft_strdup(d->dirs[i]);
+			tmp2 = ft_strdup(path);
+			tmp = ft_strjoin(tmp2, tmp);
+			if (is_dir(tmp))
+			{
+				printf("\n%s:\n", tmp);
 			//help_mod(ft_strdup(tmp), d);
-			recurse_print(com, ft_strdup(tmp), name);
+				recurse_print(com, ft_strdup(tmp), ft_strdup(name));
 			//printf(">>>%s\n", tmp);
 	//		printf(">>>%d<<<\n", z);
 			//ft_strdel(&tmp);
@@ -148,10 +156,21 @@ void				recurse_print(t_flags *com, char *paths, char *name)
 			// list_dirs("path", d);
 			// sort_strings(d);
 			// print_without_flags_a(d);
-		}
+			}
+			ft_strdel(&name);
+			ft_strdel(&tmp);
 		i++;		
+		}
+		 if(d)
+		 {
+		 	ft_free(&d);
+			free(d);
+		 }
 	}
-}
+	if (name)
+	 	ft_strdel(&name);
+	if (path)
+	 	ft_strdel(&path);
 }
 /*
 void				output_errors(char **ar)
@@ -230,12 +249,16 @@ void				ft_free(t_dir_names **d)
 
 	i = 0;
 	ds = *d;
-	while (ds->dirs[i])
+	if (ds)
 	{
-		ft_strdel(&ds->dirs[i]);
-		i++;
+		while (ds->dirs[i])
+		{
+			ft_strdel(&ds->dirs[i]);
+			i++;
+		}
+		if (ds->dirs)
+			free(ds->dirs);
 	}
-	free(ds->dirs);
 }
 
 int 				main(int argc, char **argv)
@@ -257,11 +280,15 @@ int 				main(int argc, char **argv)
 		name = ft_strdup(".");
 
 		if (!com.R){
-			d = help(path, &com, name);
+		
+			d = help(ft_strdup(path), &com, ft_strdup(name));
 			
 		}
 		else
-			recurse_print(&com, path, name);
+		{
+			
+			recurse_print(&com, ft_strdup(path), ft_strdup(name));
+		}
 	}
 	else
 	{
@@ -271,10 +298,7 @@ int 				main(int argc, char **argv)
 		//sort_args(argv, argc, i);
 		while (i < argc)
 	 	{
-	 		if (name)
-	 			ft_strdel(&name);
-	 		if (path)
-	 			ft_strdel(&path);
+	 		
 	 		name = ft_strdup(argv[i]);
 	 		// path = ft_strjoin(ft_strdup("./"), ft_strdup(argv[i]));
 	 		path = ft_strdup(argv[i]);
@@ -282,14 +306,20 @@ int 				main(int argc, char **argv)
 	 			// if (com.fz != 1)
 	 			// 	ft_printf("%s:\n", name);
 	 			d = help(path, &com, name);
+	 			if (d)
+	 			{
+	 				ft_free(&d);
+	 				free(d);
+	 			}
 	 			//ft_strdel(&name);
 	 		}
 	 		else
-	 			recurse_print(&com, path, name);
+	 			recurse_print(&com, ft_strdup(path), ft_strdup(name));
 	 		com.fz = 1;
 	 		i++;
 	 	}
 	}
-	//system("leaks ft_ls");
+
+	system("leaks ft_ls");
 	return (0);
 }

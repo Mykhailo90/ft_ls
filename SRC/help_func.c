@@ -206,14 +206,18 @@ t_dir_names			*help(char *path, t_flags *com, char *name)
 	 		if (g_er_x != 1)
 	 			ft_printf("\n");
 	 		g_er_x = 0;
-	 		ft_printf("%s:\n", name);
+	 		
+	 			ft_printf("%s:\n", name);
 	 	}
 
 		(com->a) ? print_with_flag_a(&d) : print_without_flags_a(&d);
 
 		d->flag_f = 1;
 	}
-
+		if (name)
+	 	ft_strdel(&name);
+	 	if (path)
+	 	ft_strdel(&path);
 	return (d);
 }
 /*
