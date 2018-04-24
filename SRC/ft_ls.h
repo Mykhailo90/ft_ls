@@ -28,26 +28,26 @@
 #include <limits.h>
 #include <sys/ioctl.h>
 
-typedef struct	s_flags
+typedef struct			s_flags
 {
-	char		*all_flags;
-	int			l;
-	int			R;
-	int			a;
-	int			r;
-	int			t;
-	int			one;
-	int			fz;
-	int			er_x;
-}				t_flags;
+	char				*all_flags;
+	int					l;
+	int					R;
+	int					a;
+	int					r;
+	int					t;
+	int					one;
+	int					fz;
+	int					er_x;
+}						t_flags;
 
-typedef struct	s_dir_names
+typedef struct			s_dir_names
 {
-	char 		**dirs;
-	int			len_dirs;
-	int			size_name;
-	int			flag_f;
-}				t_dir_names;
+	char 				**dirs;
+	int					len_dirs;
+	int					size_name;
+	int					flag_f;
+}						t_dir_names;
 
 typedef struct			s_err_names
 {
@@ -55,22 +55,29 @@ typedef struct			s_err_names
 	struct s_err_names 	*next;
 }						t_err_names;
 
-int				g_er_x;
+int						g_er_x;
+t_flags					g_com1;
 
-int				search_error(int argc, char **argv, t_flags *com);
-int 			is_dir(const char *path);
-int 			is_file(char* name);
-void			free_old(t_dir_names *d);
-void			sort_strings(void **tab, int length, int (*cmp)());
-t_dir_names		*help(char *path, t_flags *com, char *name);
-//void			help_mod(char *path, t_dir_names *d);
-t_dir_names		*list_dirs(char *path, t_flags *com, char *name);
-void			print_with_flag_a(t_dir_names **d);
-void			print_without_flags_a(t_dir_names **d);
-char			**sort_errors(char **d, int n);
-void			ft_free(t_dir_names **d);
-int				ft_for_st_sort(const char *a, const char *b);
-void			sort_args(char **argv, int argc, int i);
-//void			list_dirs_mod(char *path, t_dir_names *d);
+int						search_error(int argc, char **argv);
+int						search_error_names(int x, int argc,
+											char **argv);
+int 					is_dir(const char *path);
+int 					is_file(char* name);
+void					free_old(t_dir_names *d);
+void					sort_strings(void **tab, int length,
+										int (*cmp)());
+t_dir_names				*help(char *path, char *name);
+t_dir_names				*list_dirs(char *path, char *name);
+void					print_with_flag_a(t_dir_names **d);
+void					print_without_flags_a(t_dir_names **d);
+char					**sort_errors(char **d, int n);
+void					ft_free(t_dir_names **d);
+int						ft_for_st_sort(const char *a, const char *b);
+void					sort_args(char **argv, int argc, int i);
+void					recurse_print(char *path, char *name);
+void					recurse_print2(t_dir_names **ds, int i, char *path);
+void					no_r_func(char *path, char *name);
+int						ft_for_st_sort(const char *a, const char *b);
+void					sort_args(char **argv, int argc, int i);
 
 #endif

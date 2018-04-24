@@ -12,23 +12,23 @@
 
 #include "ft_ls.h"
 
-int		is_flag(char ch, t_flags *com)
+int		is_flag(char ch)
 {
 	int i;
 
 	i = 1;
 	if (ch == 'l')
-		com->l = 1;
+		g_com1.l = 1;
 	else if (ch == 'R')
-		com->R = 1;
+		g_com1.R = 1;
 	else if (ch == 'a')
-		com->a = 1;
+		g_com1.a = 1;
 	else if (ch == 'r')
-		com->r = 1;
+		g_com1.r = 1;
 	else if (ch == 't')
-		com->t = 1;
+		g_com1.t = 1;
 	else if (ch == '1')
-		com->one = 1;
+		g_com1.one = 1;
 	else
 		i = 0;;
 	return (i);
@@ -41,7 +41,7 @@ int		is_flag_arg(char *str)
 	return (0);
 }
 
-int		search_error(int argc, char **argv, t_flags *com)
+int		search_error(int argc, char **argv)
 {
 	int	i;
 	int	n;
@@ -52,7 +52,7 @@ int		search_error(int argc, char **argv, t_flags *com)
 		n = 1;
 		while (argv[i][n] != '\0')
 		{
-			if (!is_flag(argv[i][n], com))
+			if (!is_flag(argv[i][n]))
 			{
 				ft_printf("ft_ls: illegal option -- %c\n", argv[i][n]);
 				ft_printf("usage: ft_ls [-Ralrt1] [file ...]\n");
@@ -63,4 +63,22 @@ int		search_error(int argc, char **argv, t_flags *com)
 		i++;
 	}
 	return (i);
+}
+
+int				search_error_names(int x, int argc, char **argv)
+{
+	int				tmp;
+	struct stat 	s;
+
+	tmp = 0;
+	while (x < argc)
+	{		
+		if (stat(argv[x], &s) == -1)
+		{
+			ft_printf("ft_ls: %s: No such file or directory\n", argv[x]);
+			tmp++;
+		}
+		x++;
+	}
+	return ((tmp != 0) ? 1 : 0);
 }
