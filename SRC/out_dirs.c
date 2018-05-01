@@ -12,10 +12,10 @@
 
 #include "ft_ls.h"
 
-void				count_len_word(t_dir_names **ds, int *tab, int x)
+void					count_len_word(t_dir_names **ds, int *tab, int x)
 {
-	t_dir_names		*d;
-	int				n;
+	t_dir_names			*d;
+	int					n;
 
 	d = *ds;
 	d->size_name = 0;
@@ -30,11 +30,12 @@ void				count_len_word(t_dir_names **ds, int *tab, int x)
 	free(tab);
 }
 
-t_dir_names			*part_1(DIR **dir, char *path, char *name, t_dir_names **ds)
+t_dir_names				*part_1(DIR **dir, char *path,
+						char *name, t_dir_names **ds)
 {
-	t_dir_names 	*d;
+	t_dir_names			*d;
 
-	d = *ds;	
+	d = *ds;
 	if (!(*dir = opendir(path)))
 	{
 		if (errno == EACCES)
@@ -52,11 +53,12 @@ t_dir_names			*part_1(DIR **dir, char *path, char *name, t_dir_names **ds)
 	return (d);
 }
 
-t_dir_names			*part_2(DIR **dir, t_dir_names **ds, int n, struct dirent **dps)
+t_dir_names				*part_2(DIR **dir, t_dir_names **ds, int n,
+							struct dirent **dps)
 {
-	int				*tab;
-	t_dir_names		*d;
-	struct dirent	*dp;
+	int					*tab;
+	t_dir_names			*d;
+	struct dirent		*dp;
 
 	dp = *dps;
 	d = *ds;
@@ -77,13 +79,12 @@ t_dir_names			*part_2(DIR **dir, t_dir_names **ds, int n, struct dirent **dps)
 	return (d);
 }
 
-t_dir_names			*list_dirs(char *path, char *name)
+t_dir_names				*list_dirs(char *path, char *name)
 {
-	static t_dir_names 	*d;
-	DIR 			*dir;
-	struct dirent	*dp;
-	int 			n;
-	
+	static t_dir_names	*d;
+	DIR					*dir;
+	struct dirent		*dp;
+	int					n;
 
 	dir = NULL;
 	d = malloc(sizeof(t_dir_names));
@@ -94,7 +95,7 @@ t_dir_names			*list_dirs(char *path, char *name)
 	while ((dp = readdir(dir)) != NULL)
 		n++;
 	rewinddir(dir);
-	d = part_2(&dir, &d, n, &dp);	
+	d = part_2(&dir, &d, n, &dp);
 	closedir(dir);
 	return (d);
 }

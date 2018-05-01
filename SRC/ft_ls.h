@@ -13,26 +13,26 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 
-#include "../libft/ft_printf.h"
-#include "../libft/libft.h"
-#include <sys/types.h>
-#include <dirent.h>
-#include <pwd.h>
-#include <grp.h>
-#include <sys/xattr.h>
-#include <time.h>
-#include <stdio.h>
-#include <errno.h>
-#include <termios.h>
-#include <sys/stat.h>
-#include <limits.h>
-#include <sys/ioctl.h>
+# include "../libft/ft_printf.h"
+# include "../libft/libft.h"
+# include <sys/types.h>
+# include <dirent.h>
+# include <pwd.h>
+# include <grp.h>
+# include <sys/xattr.h>
+# include <time.h>
+# include <stdio.h>
+# include <errno.h>
+# include <termios.h>
+# include <sys/stat.h>
+# include <limits.h>
+# include <sys/ioctl.h>
 
 typedef struct			s_flags
 {
 	char				*all_flags;
 	int					l;
-	int					R;
+	int					rb;
 	int					a;
 	int					r;
 	int					t;
@@ -43,7 +43,7 @@ typedef struct			s_flags
 
 typedef struct			s_dir_names
 {
-	char 				**dirs;
+	char				**dirs;
 	int					len_dirs;
 	int					size_name;
 	int					flag_f;
@@ -52,17 +52,20 @@ typedef struct			s_dir_names
 typedef struct			s_err_names
 {
 	char				*name;
-	struct s_err_names 	*next;
+	struct s_err_names	*next;
 }						t_err_names;
 
 int						g_er_x;
 t_flags					g_com1;
+struct stat				s1;
+struct stat				s2;
+
 
 int						search_error(int argc, char **argv);
 int						search_error_names(int x, int argc,
 											char **argv);
-int 					is_dir(const char *path);
-int 					is_file(char* name);
+int						is_dir(const char *path);
+int						is_file(char *name);
 void					free_old(t_dir_names *d);
 void					sort_strings(void **tab, int length,
 										int (*cmp)());
@@ -79,5 +82,10 @@ void					recurse_print2(t_dir_names **ds, int i, char *path);
 void					no_r_func(char *path, char *name);
 int						ft_for_st_sort(const char *a, const char *b);
 void					sort_args(char **argv, int argc, int i);
+int						ft_for_st_sort2(const char *a, const char *b);
+int						ft_for_time_sort(const char *name,
+											const char *name2);
+void					ft_printf_param(char *name);
+void					ft_printf_file_type(char *name);
 
 #endif

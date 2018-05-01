@@ -20,7 +20,7 @@ int		is_flag(char ch)
 	if (ch == 'l')
 		g_com1.l = 1;
 	else if (ch == 'R')
-		g_com1.R = 1;
+		g_com1.rb = 1;
 	else if (ch == 'a')
 		g_com1.a = 1;
 	else if (ch == 'r')

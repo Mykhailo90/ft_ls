@@ -17,7 +17,8 @@ FLAGS = -c -Wall -Wextra -Werror
 FT_PRINTF = libft/libftprintf.a
 
 SRC =  ./SRC/main.c ./SRC/valid_flags.c ./SRC/help_func.c ./SRC/print_func.c \
-		./SRC/out_dirs.c ./SRC/recur_pr.c ./SRC/sort.c
+		./SRC/out_dirs.c ./SRC/recur_pr.c ./SRC/sort.c ./SRC/sort2.c \
+		./SRC/print_l.c
 
 OBJ = $(SRC:.c=.o)
 

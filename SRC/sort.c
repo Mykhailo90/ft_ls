@@ -62,6 +62,11 @@ int		ft_for_st_sort(const char *a, const char *b)
 	return (ft_strcmp(a, b) > 0);
 }
 
+int		ft_for_st_sort2(const char *a, const char *b)
+{
+	return (ft_strcmp(a, b) < 0);
+}
+
 static void		sort2(void **tab, int len1, int len2, int (*cmp)())
 {
 	int		i1;

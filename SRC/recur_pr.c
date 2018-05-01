@@ -14,10 +14,10 @@
 
 void				recurse_print2(t_dir_names **ds, int i, char *path)
 {
-	t_dir_names 	*d;
-	char 			*tmp;
+	t_dir_names		*d;
+	char			*tmp;
 	char			*name;
-	char 			*tmp2;
+	char			*tmp2;
 
 	d = *ds;
 	tmp = NULL;
@@ -39,27 +39,27 @@ void				recurse_print2(t_dir_names **ds, int i, char *path)
 
 void				recurse_print(char *path, char *name)
 {
-	int 			i;
-	t_dir_names 	*d;
-	
+	int				i;
+	t_dir_names		*d;
+	int				z;
+
 	d = NULL;
-	
 	if (is_dir(path))
 		d = help(ft_strdup(path), ft_strdup(name));
 	if (d)
 	{
 		i = 0;
-		int z = d->len_dirs;
+		z = d->len_dirs;
 		while (i < z)
 		{
 			recurse_print2(&d, i, path);
-			i++;		
+			i++;
 		}
 		ft_free(&d);
 		free(d);
 	}
 	if (name)
-	 	ft_strdel(&name);
+		ft_strdel(&name);
 	if (path)
-	 	ft_strdel(&path);
+		ft_strdel(&path);
 }

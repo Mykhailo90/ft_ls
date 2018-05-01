@@ -43,37 +43,44 @@ void				start_list(char **argv, int argc, int i)
 	{
 		name = ft_strdup(argv[i]);
 		path = ft_strdup(argv[i]);
-		if (!(g_com1.R))
-			no_r_func(path, name);
+
+		if (is_dir(path))
+		{
+			if (!(g_com1.rb))
+				no_r_func(path, name);
+			else
+				recurse_print(path, name);
+		
+			g_com1.fz = 1;
+		}
 		else
-			recurse_print(path, name);
-		g_com1.fz = 1;
+			//ft_printf("%s", name);
+			;
 		i++;
 	}
 }
 
-int 				main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
-	int 			i;
-	t_dir_names 	*d;
+	int				i;
+	t_dir_names		*d;
 	char			*path;
 	char			*name;
-
+	
 	path = NULL;
 	name = NULL;
+	
 	i = search_error(argc, argv);
 	if (i == argc)
 	{
 		path = ft_strdup(".");
 		name = ft_strdup(".");
-		if (!(g_com1.R))
+		if (!(g_com1.rb))
 			d = help(ft_strdup(path), ft_strdup(name));
 		else
 			recurse_print(ft_strdup(path), ft_strdup(name));
 	}
 	else
 		start_list(argv, argc, i);
-
-	system("leaks ft_ls");
 	return (0);
 }
