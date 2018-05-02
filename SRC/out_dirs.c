@@ -41,7 +41,10 @@ t_dir_names				*part_1(DIR **dir, char *path,
 		if (errno == EACCES)
 		{
 			free(d);
+			if (g_com1.fz == 1)
+				ft_printf("\n%s:\n", name);
 			ft_printf("ft_ls: %s: Permission denied\n", name);
+			g_er_x = 1;
 			return (NULL);
 		}
 		if (errno == ENOENT)
@@ -72,10 +75,13 @@ t_dir_names				*part_2(DIR **dir, t_dir_names **ds, int n,
 			continue ;
 		tab[n] = ft_strlen(dp->d_name);
 		d->dirs[n] = ft_strnew(tab[n]);
+		d->ar_roads[n] = ft_strjoin(ft_strdup(d->road),
+									ft_strdup(dp->d_name));
 		ft_strcpy(d->dirs[n], dp->d_name);
 		n++;
 	}
 	count_len_word(&d, tab, n);
+	ft_strdel(&(d)->road);
 	return (d);
 }
 
@@ -92,9 +98,12 @@ t_dir_names				*list_dirs(char *path, char *name)
 	if (!d)
 		return (NULL);
 	n = 0;
+	d->road = ft_strjoin(ft_strdup(path), ft_strdup("/")); // Budet legat put k diram
 	while ((dp = readdir(dir)) != NULL)
 		n++;
 	rewinddir(dir);
+	d->ar_roads = ft_memalloc(sizeof(char *) * n + 1);
+	d->ar_roads[n] = NULL;
 	d = part_2(&dir, &d, n, &dp);
 	closedir(dir);
 	return (d);

@@ -30,7 +30,8 @@ void				recurse_print2(t_dir_names **ds, int i, char *path)
 	tmp = ft_strjoin(tmp2, tmp);
 	if (is_dir(tmp))
 	{
-		printf("\n%s:\n", tmp);
+		if (g_com1.many_args != 1)
+			printf("\n%s:\n", tmp);
 		recurse_print(ft_strdup(tmp), ft_strdup(name));
 	}
 	ft_strdel(&name);

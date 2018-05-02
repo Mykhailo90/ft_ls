@@ -65,27 +65,22 @@ void					try_sort(t_dir_names *d)
 
 t_dir_names				*help(char *path, char *name)
 {
-	static t_dir_names	*d;
+	t_dir_names	*d;
 
 	d = list_dirs(path, name);
 	if (d)
 	{
 		try_sort(d);
-	//	(g_com1.l)
-		if (g_com1.fz == 1 && g_er_x == 0 && !g_com1.rb)
-			ft_printf("%s:\n", name);
-		if (g_com1.fz == 1)
-		{
-			if (g_er_x != 1)
-				ft_printf("\n");
-			g_er_x = 0;
-			ft_printf("%s:\n", name);
-		}
-		(g_com1.a) ? print_with_flag_a(&d) : print_without_flags_a(&d);
+		
+		if (g_er_x != 1)
+			ft_printf("\n");
+		g_er_x = 0;
+		if (g_com1.many_args == 1)
+			ft_printf("%s:\n", path);
+		print_dirs(&d);
 		d->flag_f = 1;
 	}
-	else
-		ft_printf("%s ", name);
+	
 	if (name)
 		ft_strdel(&name);
 	if (path)

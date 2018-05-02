@@ -44,18 +44,14 @@ void				start_list(char **argv, int argc, int i)
 		name = ft_strdup(argv[i]);
 		path = ft_strdup(argv[i]);
 
-		if (is_dir(path))
-		{
-			if (!(g_com1.rb))
-				no_r_func(path, name);
-			else
-				recurse_print(path, name);
-		
-			g_com1.fz = 1;
-		}
+		if (!is_dir(path))
+			ft_printf("%s\n", path);
+		else if (!(g_com1.rb))
+			no_r_func(path, name);
 		else
-			//ft_printf("%s", name);
-			;
+			recurse_print(path, name);
+		g_com1.fz = 1;
+
 		i++;
 	}
 }
@@ -81,6 +77,10 @@ int					main(int argc, char **argv)
 			recurse_print(ft_strdup(path), ft_strdup(name));
 	}
 	else
+	{
+		if (i + 1 != argc)
+			g_com1.many_args = 1;
 		start_list(argv, argc, i);
+	}
 	return (0);
 }

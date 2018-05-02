@@ -45,6 +45,7 @@ char				*ft_strstr(const char *haystack,
 								const char *needle);
 char				*ft_strnstr(const char *big,
 								const char *little, size_t len);
+size_t				ft_count_words(char const *s, char c);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strncat(char *dest, const char *src, size_t n);
@@ -61,6 +62,7 @@ void				ft_bzero(void *s, size_t n);
 void				*ft_memset(void *s, int c, size_t n);
 char				*ft_strnew(size_t size);
 void				ft_memdel(void **ap);
+void				*ft_memalloc(size_t size);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_strdel(char **as);

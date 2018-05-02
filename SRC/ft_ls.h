@@ -39,11 +39,14 @@ typedef struct			s_flags
 	int					one;
 	int					fz;
 	int					er_x;
+	int					many_args;
 }						t_flags;
 
 typedef struct			s_dir_names
 {
 	char				**dirs;
+	char				*road;
+	char				**ar_roads;
 	int					len_dirs;
 	int					size_name;
 	int					flag_f;
@@ -59,7 +62,8 @@ int						g_er_x;
 t_flags					g_com1;
 struct stat				s1;
 struct stat				s2;
-
+struct group			*grp;
+struct passwd			*pwd;
 
 int						search_error(int argc, char **argv);
 int						search_error_names(int x, int argc,
@@ -71,8 +75,10 @@ void					sort_strings(void **tab, int length,
 										int (*cmp)());
 t_dir_names				*help(char *path, char *name);
 t_dir_names				*list_dirs(char *path, char *name);
-void					print_with_flag_a(t_dir_names **d);
-void					print_without_flags_a(t_dir_names **d);
+void					print_with_flag_a(t_dir_names **d, int columns,
+											int len_w);
+void					print_without_flags_a(t_dir_names **d,
+												int columns, int len_w);
 char					**sort_errors(char **d, int n);
 void					ft_free(t_dir_names **d);
 int						ft_for_st_sort(const char *a, const char *b);
@@ -85,7 +91,24 @@ void					sort_args(char **argv, int argc, int i);
 int						ft_for_st_sort2(const char *a, const char *b);
 int						ft_for_time_sort(const char *name,
 											const char *name2);
-void					ft_printf_param(char *name);
-void					ft_printf_file_type(char *name);
+void					print_params(char *name);
+void					print_type(char *name);
+void					print_dirs(t_dir_names **ds);
+void					print_l_flag_a(t_dir_names **ds);
+void					print_l_no_flags_a(t_dir_names **ds);
+void					print_fin_param(char *name);
+void					print_total(char **dirs);
+void					print_pwname(char *name);
+void					print_year(char *name);
+void					print_size(char *name);
+void					print_t(char *name);
+void					print_fin_time(char *time);
 
 #endif
+
+
+
+
+
+
+

@@ -23,7 +23,7 @@ ft_strcpy.c ft_strdel.c ft_strjoin.c ft_strlen.c ft_strnew.c ft_memalloc.c \
 ft_memdel.c ft_strcat.c print_du.c ft_itoa_u.c print_s.c print_s2.c \
 add_null2.c add_esp2.c convert_str.c add_null3.c print_p.c \
 print_c.c print_x.c add_hesh.c print_u.c ft_strdup.c ft_memset.c \
-ft_itoa_base_s.c help.c ft_strcmp.c
+ft_itoa_base_s.c help.c ft_strcmp.c ft_strsplit.c ft_memalloc.c ft_count_words.c
 
 OBJ = $(SRC:.c=.o)
 
