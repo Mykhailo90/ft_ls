@@ -12,76 +12,71 @@
 
 #include "ft_ls.h"
 
-void					print_l_flag_a(t_dir_names **ds)
+void						print_l_flag_a(t_dir_names **ds)
 {
-	int				i;
-	int 			len_str;
-	t_dir_names		*d;
+	int						i;
+	int						len_str;
+	t_dir_names				*d;
 
 	d = *ds;
 	i = 0;
 	len_str = d->len_dirs;
-
 	print_total(d->ar_roads);
-
-	while (len_str != 0)
-	{	
-		print_type(d->ar_roads[i]);
-		print_fin_param(d->ar_roads[i]);
-		ft_strdel(&(d)->ar_roads[i]);
-		ft_printf(" ");
-		ft_printf("%s\n", d->dirs[i]);
-		i++;
-		len_str--;
-	}
-	ft_printf("\n");
-	free(d->ar_roads);
-}
-
-void					print_l_no_flags_a(t_dir_names **ds)
-{
-	int				i;
-	int				len_str;
-	t_dir_names		*d;
-    d = *ds;
-	i = 0;
-	len_str = d->len_dirs;
-	
-	print_total(d->ar_roads);
-
 	while (len_str != 0)
 	{
-		if (d->dirs[i][0] != '.')
+		lstat(d->ar_roads[i], &s1);
+		print_type(s1);
+		print_fin_param(s1);
+		ft_printf(" ");
+		if (S_ISLNK(s1.st_mode))
 		{
-			print_type(d->ar_roads[i]);
-			print_fin_param(d->ar_roads[i]);
-			ft_strdel(&(d)->ar_roads[i]);
-			ft_printf(" ");
-			ft_printf("%s\n", d->dirs[i]);
+			ft_printf("%s", d->dirs[i]);
+			ft_read_link(d->ar_roads[i], s1);
 		}
+		else
+			ft_printf("%s\n", d->dirs[i]);
 		i++;
 		len_str--;
 	}
 	ft_printf("\n");
-	free(d->ar_roads);
 }
 
-void				inicialization(int *i, int *len_c,
-												int len_dirs, int columns)
+void						print_l_no_flags_a(t_dir_names **d)
 {
-	*i = 0;
-	*len_c = len_dirs / columns;
-	if (len_dirs % columns != 0)
-		(*len_c)++;
+	int						i;
+	int						len_str;
+
+	i = 0;
+	len_str = (*d)->len_dirs;
+	print_total((*d)->ar_roads);
+	while (len_str--)
+	{
+		if ((*d)->dirs[i][0] != '.')
+		{
+			lstat((*d)->ar_roads[i], &s1);
+			print_type(s1);
+			print_fin_param(s1);
+			ft_printf(" ");
+			if (S_ISLNK(s1.st_mode))
+			{
+				ft_printf("%s", (*d)->dirs[i]);
+				ft_read_link((*d)->ar_roads[i], s1);
+			}
+			else
+				ft_printf("%s\n", (*d)->dirs[i]);
+		}
+		i++;
+	}
+	ft_printf("\n");
 }
 
-void				print_with_flag_a(t_dir_names **ds,
+void						print_with_flag_a(t_dir_names **ds,
 											int columns, int len_w)
 {
-	int				i;
-	int				x;
-	int				len_c;
-	int				tmp;
+	int						i;
+	int						x;
+	int						len_c;
+	int						tmp;
 
 	inicialization(&i, &len_c, (*ds)->len_dirs, columns);
 	while (i < len_c)
@@ -98,19 +93,19 @@ void				print_with_flag_a(t_dir_names **ds,
 			}
 			x--;
 		}
-		ft_printf("\n");	
+		ft_printf("\n");
 		i++;
 	}
 }
 
-void				print_without_flags_a(t_dir_names **ds,
+void						print_without_flags_a(t_dir_names **ds,
 											int columns, int len_w)
 {
-	int				i;
-	int				x;
-	int				len_c;
-	int				tmp;
-	
+	int						i;
+	int						x;
+	int						len_c;
+	int						tmp;
+
 	inicialization(&i, &len_c, (*ds)->len_dirs, columns);
 	while (i < len_c)
 	{
@@ -128,58 +123,32 @@ void				print_without_flags_a(t_dir_names **ds,
 			}
 			x--;
 		}
-		ft_printf("\n");	
+		ft_printf("\n");
 		i++;
 	}
 }
 
-int					search_column(int len_symb, t_dir_names **ds)
+void						print_dirs(t_dir_names **ds)
 {
-	int				modul; 
+	t_dir_names				*d;
+	struct winsize			w;
+	int						len_symb;
+	int						columns;
 
-	modul = 1;
-	if (len_symb > 25 && len_symb < 50)
-		modul = 2;
-	else if (len_symb < 75)
-		modul = 3;
-	else if (len_symb < 100)
-		modul = 4;
-	else if (len_symb < 150)
-		modul = 5;
-	else if (len_symb < 200)
-		modul = 6;
-	else if (len_symb < 230)
-		modul = 7;
-	else if (len_symb >= 230)
-		modul = 8;
-	while (len_symb < (((*ds)->size_name + 6) * modul))
-		modul--;
-	if (modul == 0)
-		modul++;
-	return (modul);
-}
-
-void				print_dirs(t_dir_names **ds)
-{
-	t_dir_names		*d;
-	struct winsize 	w;
-	int				len_symb;
-	int				columns;
-
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    len_symb = w.ws_col;
-    columns = (g_com1.l) ? 1 : search_column(len_symb, ds);
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	len_symb = w.ws_col;
+	columns = (g_com1.l) ? 1 : search_column(len_symb, ds);
 	d = *ds;
-	if (!g_com1.l)
+	if (g_com1.i == 1)
+		(g_com1.a) ? print_i_with_flag_a(&d, columns, d->size_name + 6) :
+					print_i_without_flags_a(&d, columns, d->size_name + 6);
+	else if (!g_com1.l && !g_com1.one)
 		(g_com1.a) ? print_with_flag_a(&d, columns, d->size_name + 6) :
 					print_without_flags_a(&d, columns, d->size_name + 6);
+	else if (!g_com1.l && g_com1.one == 1)
+		(g_com1.a) ? print1_with_flag_a(&d) :
+					print1_without_flags_a(&d);
 	else
 		(g_com1.a) ? print_l_flag_a(&d) :
 					print_l_no_flags_a(&d);
 }
-
-
-
-
-
-

@@ -14,7 +14,7 @@
 
 char				**sort_errors(char **d, int n)
 {
-	int 			i;
+	int				i;
 	char			*str;
 
 	i = 0;
@@ -34,80 +34,100 @@ char				**sort_errors(char **d, int n)
 	return (d);
 }
 
-void		sort_args(char **argv, int argc, int i)
+void				h4(t_h4 *h, int (*cmp)())
 {
-	char	*tmp;
-	int		n;
-
-	n = i;
-	tmp = NULL;
-	while (n < argc - 1)
+	if (h->ar1 >= *(h->l1))
 	{
-		
-		if (ft_strcmp(argv[n], argv[n + 1]) > 0)
-		{
-			tmp = argv[n];
-			argv[n] = argv[n + 1];
-			argv[n + 1] = tmp;
-			n = i;
-		}
-		else
-			n++;
+		h->tmp[h->tmp_ar] = h->t[h->ar2];
+		h->tmp1[h->tmp_ar] = h->t1[(h->ar2)++];
 	}
-
+	else if (h->ar2 >= *(h->l2))
+	{
+		h->tmp[h->tmp_ar] = h->t[h->ar1];
+		h->tmp1[h->tmp_ar] = h->t1[(h->ar1)++];
+	}
+	else if (cmp(h->t[h->ar1], h->t[h->ar2]) > 0)
+	{
+		h->tmp[h->tmp_ar] = h->t[h->ar2];
+		h->tmp1[h->tmp_ar] = h->t1[(h->ar2)++];
+	}
+	else
+	{
+		h->tmp[h->tmp_ar] = h->t[h->ar1];
+		h->tmp1[h->tmp_ar] = h->t1[(h->ar1)++];
+	}
 }
 
-int		ft_for_st_sort(const char *a, const char *b)
+void				sort2(void **tab, void **tab1, t_len l, int (*cmp)())
 {
-	return (ft_strcmp(a, b) > 0);
+	t_h4			*h;
+
+	h = malloc(sizeof(t_h4));
+	h->tmp = malloc(sizeof(void *) * (l.len2 + l.len1));
+	h->tmp1 = malloc(sizeof(void *) * (l.len2 += l.len1));
+	h->ar1 = 0;
+	h->ar2 = l.len1;
+	h->tmp_ar = -1;
+	h->t = tab;
+	h->t1 = tab1;
+	h->l1 = &l.len1;
+	h->l2 = &l.len2;
+	while (++(h->tmp_ar) < *(h->l2))
+		h4(h, cmp);
+	while (--(h->tmp_ar) >= 0)
+	{
+		h->t[h->tmp_ar] = h->tmp[h->tmp_ar];
+		h->t1[h->tmp_ar] = h->tmp1[h->tmp_ar];
+	}
+	free(h->tmp);
+	free(h->tmp1);
+	free(h);
 }
 
-int		ft_for_st_sort2(const char *a, const char *b)
+void				sort_strings(void **tab, void **tab1,
+									int length, int (*cmp)())
 {
-	return (ft_strcmp(a, b) < 0);
-}
-
-static void		sort2(void **tab, int len1, int len2, int (*cmp)())
-{
-	int		i1;
-	int		i2;
-	int		tmp_i;
-	void	*tmp[len2 += len1];
-
-	i1 = 0;
-	i2 = len1;
-	tmp_i = -1;
-	while (++tmp_i < len2)
-		if (i1 >= len1)
-			tmp[tmp_i] = tab[i2++];
-		else if (i2 >= len2)
-			tmp[tmp_i] = tab[i1++];
-		else if (cmp(tab[i1], tab[i2]) > 0)
-			tmp[tmp_i] = tab[i2++];
-		else
-			tmp[tmp_i] = tab[i1++];
-	while (--tmp_i >= 0)
-		tab[tmp_i] = tmp[tmp_i];
-}
-
-void			sort_strings(void **tab, int length, int (*cmp)())
-{
-	int		len1;
-	int		len2;
-	void	*tmp;
+	t_len			l;
+	void			*tmp;
+	void			*tmp1;
 
 	if (length > 2)
 	{
-		len1 = length / 2 + length % 2;
-		len2 = length / 2;
-		sort_strings(tab, len1, cmp);
-		sort_strings(tab + len1, len2, cmp);
-		sort2(tab, len1, len2, cmp);
+		l.len1 = length / 2 + length % 2;
+		l.len2 = length / 2;
+		sort_strings(tab, tab1, l.len1, cmp);
+		sort_strings(tab + l.len1, tab1 + l.len1, l.len2, cmp);
+		sort2(tab, tab1, l, cmp);
 	}
 	else if (length == 2 && cmp(tab[0], tab[1]) > 0)
 	{
 		tmp = tab[0];
 		tab[0] = tab[1];
 		tab[1] = tmp;
+		tmp1 = tab1[0];
+		tab1[0] = tab1[1];
+		tab1[1] = tmp1;
+	}
+}
+
+void				sort_strings2(void **tab, void **tab1, int length)
+{
+	int				i;
+	int				n;
+	void			*tmp;
+	void			*tmp1;
+
+	i = 0;
+	n = length - 1;
+	while (i < (length / 2))
+	{
+		tmp = tab[i];
+		tab[i] = tab[n];
+		tab[n] = tmp;
+		tmp1 = tab1[i];
+		tab1[i] = tab1[n];
+		tab1[n] = tmp1;
+		i++;
+		n--;
 	}
 }

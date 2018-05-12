@@ -98,7 +98,7 @@ t_dir_names				*list_dirs(char *path, char *name)
 	if (!d)
 		return (NULL);
 	n = 0;
-	d->road = ft_strjoin(ft_strdup(path), ft_strdup("/")); // Budet legat put k diram
+	d->road = ft_strjoin(ft_strdup(path), ft_strdup("/"));
 	while ((dp = readdir(dir)) != NULL)
 		n++;
 	rewinddir(dir);

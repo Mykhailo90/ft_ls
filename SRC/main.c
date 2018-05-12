@@ -12,23 +12,46 @@
 
 #include "ft_ls.h"
 
-void				ft_free(t_dir_names **d)
+void				pt_link(char *path)
 {
-	int				i;
-	t_dir_names		*ds;
-
-	i = 0;
-	ds = *d;
-	if (ds)
+	lstat(path, &s2);
+	print_type(s2);
+	print_params(s2);
+	ft_count_link(s2);
+	ft_printf(" \t");
+	print_pwname(s2);
+	ft_printf(" \t");
+	print_year(s2);
+	ft_printf(" ");
+	if (S_ISCHR(s2.st_mode) || S_ISBLK(s2.st_mode))
+		minor_major(s2);
+	else
+		print_size(s2);
+	ft_printf(" ");
+	print_t(s2);
+	ft_printf(" \t");
+	if (S_ISLNK(s2.st_mode))
 	{
-		while (ds->dirs[i])
-		{
-			ft_strdel(&ds->dirs[i]);
-			i++;
-		}
-		if (ds->dirs)
-			free(ds->dirs);
+		ft_printf("%s", path);
+		ft_read_link(path, s2);
 	}
+	else
+		ft_printf("%s\n", path);
+}
+
+void				h1(char *path)
+{
+	if (g_er_f == 1)
+		ft_printf("\n");
+	ft_printf("%s\n", path);
+	g_er_f = 1;
+}
+
+void				h2(char *path)
+{
+	if (g_er_f)
+		ft_printf("\n");
+	pt_link(path);
 }
 
 void				start_list(char **argv, int argc, int i)
@@ -43,15 +66,15 @@ void				start_list(char **argv, int argc, int i)
 	{
 		name = ft_strdup(argv[i]);
 		path = ft_strdup(argv[i]);
-
-		if (!is_dir(path))
-			ft_printf("%s\n", path);
-		else if (!(g_com1.rb))
+		if (!is_dir(path) && !(g_com1.l) && lstat(path, &s1) != -1)
+			h1(path);
+		else if (!is_dir(path) && (g_com1.l) && lstat(path, &s1) != -1)
+			h2(path);
+		else if (!(g_com1.rb) && lstat(path, &s1) != -1)
 			no_r_func(path, name);
-		else
+		else if (stat(path, &s1) != -1)
 			recurse_print(path, name);
 		g_com1.fz = 1;
-
 		i++;
 	}
 }
@@ -62,11 +85,11 @@ int					main(int argc, char **argv)
 	t_dir_names		*d;
 	char			*path;
 	char			*name;
-	
+
 	path = NULL;
 	name = NULL;
-	
 	i = search_error(argc, argv);
+	g_com1.l = (g_com1.g == 1) ? 1 : g_com1.l;
 	if (i == argc)
 	{
 		path = ft_strdup(".");

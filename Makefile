@@ -18,7 +18,7 @@ FT_PRINTF = libft/libftprintf.a
 
 SRC =  ./SRC/main.c ./SRC/valid_flags.c ./SRC/help_func.c ./SRC/print_func.c \
 		./SRC/out_dirs.c ./SRC/recur_pr.c ./SRC/sort.c ./SRC/sort2.c \
-		./SRC/print_l.c
+		./SRC/print_l.c ./SRC/print_func_help.c ./SRC/help.c ./SRC/print1.c
 
 OBJ = $(SRC:.c=.o)
 
