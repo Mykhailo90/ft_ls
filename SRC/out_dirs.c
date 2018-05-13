@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void					count_len_word(t_dir_names **ds, int *tab, int x)
+static void				count_len_word(t_dir_names **ds, int *tab, int x)
 {
 	t_dir_names			*d;
 	int					n;
@@ -30,7 +30,7 @@ void					count_len_word(t_dir_names **ds, int *tab, int x)
 	free(tab);
 }
 
-t_dir_names				*part_1(DIR **dir, char *path,
+static t_dir_names		*part_1(DIR **dir, char *path,
 						char *name, t_dir_names **ds)
 {
 	t_dir_names			*d;
@@ -56,7 +56,7 @@ t_dir_names				*part_1(DIR **dir, char *path,
 	return (d);
 }
 
-t_dir_names				*part_2(DIR **dir, t_dir_names **ds, int n,
+static t_dir_names		*part_2(DIR **dir, t_dir_names **ds, int n,
 							struct dirent **dps)
 {
 	int					*tab;
@@ -73,11 +73,10 @@ t_dir_names				*part_2(DIR **dir, t_dir_names **ds, int n,
 	{
 		if (dp->d_name[0] == '.' && !g_com1.a)
 			continue ;
-		tab[n] = ft_strlen(dp->d_name);
-		d->dirs[n] = ft_strnew(tab[n]);
+		tab[n] = ft_strlen_uv((unsigned char *)dp->d_name);
+		d->dirs[n] = ft_strdup(dp->d_name);
 		d->ar_roads[n] = ft_strjoin(ft_strdup(d->road),
 									ft_strdup(dp->d_name));
-		ft_strcpy(d->dirs[n], dp->d_name);
 		n++;
 	}
 	count_len_word(&d, tab, n);
@@ -97,7 +96,7 @@ t_dir_names				*list_dirs(char *path, char *name)
 	d = part_1(&dir, path, name, &d);
 	if (!d)
 		return (NULL);
-	n = 0;
+	n = 1;
 	d->road = ft_strjoin(ft_strdup(path), ft_strdup("/"));
 	while ((dp = readdir(dir)) != NULL)
 		n++;

@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void				pt_link(char *path)
+static void			pt_link(char *path)
 {
 	lstat(path, &s2);
 	print_type(s2);
@@ -39,7 +39,7 @@ void				pt_link(char *path)
 		ft_printf("%s\n", path);
 }
 
-void				h1(char *path)
+static void			h1(char *path)
 {
 	if (g_er_f == 1)
 		ft_printf("\n");
@@ -47,14 +47,14 @@ void				h1(char *path)
 	g_er_f = 1;
 }
 
-void				h2(char *path)
+static void			h2(char *path)
 {
 	if (g_er_f)
 		ft_printf("\n");
 	pt_link(path);
 }
 
-void				start_list(char **argv, int argc, int i)
+static void			start_list(char **argv, int argc, int i)
 {
 	char			*path;
 	char			*name;

@@ -16,9 +16,14 @@ void				inicialization(int *i, int *len_c,
 												int len_dirs, int columns)
 {
 	*i = 0;
-	*len_c = len_dirs / columns;
-	if (len_dirs % columns != 0)
-		(*len_c)++;
+	if (columns == 0)
+		*len_c = len_dirs;
+	else
+	{
+		*len_c = len_dirs / columns;
+		if (len_dirs % columns != 0)
+			(*len_c)++;
+	}
 }
 
 int					search_column(int len_symb, t_dir_names **ds)

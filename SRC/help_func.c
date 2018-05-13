@@ -67,7 +67,7 @@ void					try_sort(t_dir_names *d)
 
 t_dir_names				*help(char *path, char *name)
 {
-	t_dir_names	*d;
+	t_dir_names			*d;
 
 	d = list_dirs(path, name);
 	if (d)

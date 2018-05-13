@@ -142,4 +142,5 @@ void					print_i_without_flags_a(t_dir_names **ds,
 											int columns, int len_w);
 void					print_i_with_flag_a(t_dir_names **ds,
 											int columns, int len_w);
+void					try_sort(t_dir_names *d);
 #endif

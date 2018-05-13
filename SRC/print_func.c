@@ -142,12 +142,12 @@ void						print_dirs(t_dir_names **ds)
 	if (g_com1.i == 1)
 		(g_com1.a) ? print_i_with_flag_a(&d, columns, d->size_name + 6) :
 					print_i_without_flags_a(&d, columns, d->size_name + 6);
+	else if (g_com1.one == 1)
+		(g_com1.a) ? print1_with_flag_a(&d) :
+					print1_without_flags_a(&d);
 	else if (!g_com1.l && !g_com1.one)
 		(g_com1.a) ? print_with_flag_a(&d, columns, d->size_name + 6) :
 					print_without_flags_a(&d, columns, d->size_name + 6);
-	else if (!g_com1.l && g_com1.one == 1)
-		(g_com1.a) ? print1_with_flag_a(&d) :
-					print1_without_flags_a(&d);
 	else
 		(g_com1.a) ? print_l_flag_a(&d) :
 					print_l_no_flags_a(&d);

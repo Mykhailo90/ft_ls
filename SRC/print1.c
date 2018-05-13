@@ -75,7 +75,7 @@ void						print_i_with_flag_a(t_dir_names **ds,
 	}
 }
 
-void						h3(int i, int tmp, t_dir_names **ds, int len_w)
+static void					h3(int i, int tmp, t_dir_names **ds, int len_w)
 {
 	if ((*ds)->dirs[i + tmp][0] != '.')
 	{

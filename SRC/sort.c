@@ -34,7 +34,7 @@ char				**sort_errors(char **d, int n)
 	return (d);
 }
 
-void				h4(t_h4 *h, int (*cmp)())
+static void			h4(t_h4 *h, int (*cmp)())
 {
 	if (h->ar1 >= *(h->l1))
 	{
@@ -58,7 +58,7 @@ void				h4(t_h4 *h, int (*cmp)())
 	}
 }
 
-void				sort2(void **tab, void **tab1, t_len l, int (*cmp)())
+static void			sort2(void **tab, void **tab1, t_len l, int (*cmp)())
 {
 	t_h4			*h;
 

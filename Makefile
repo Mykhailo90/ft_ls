@@ -5,14 +5,14 @@
 #                                                     +:+ +:+         +:+      #
 #    By: msarapii <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/04/14 12:23:15 by msarapii          #+#    #+#              #
-#    Updated: 2018/04/14 12:23:16 by msarapii         ###   ########.fr        #
+#    Created: 2018/05/12 13:43:53 by msarapii          #+#    #+#              #
+#    Updated: 2018/05/12 13:43:54 by msarapii         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME = ft_ls
+NAME = "ft_ls"
 
-FLAGS = -c -Wall -Wextra -Werror
+FLAFS = "-Wall -Wexta -Werror"
 
 FT_PRINTF = libft/libftprintf.a
 
@@ -24,12 +24,15 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
+$(OBJ) : %.o: %.c
+		@gcc $(FLAGS) -I ./SRC/ -I ./libft/ -o $@ -c $<
+
 $(NAME): $(OBJ)
 		@make -C libft/
 		@gcc -o $(NAME) $(OBJ) $(FT_PRINTF)
 
-%.o: %.c
-	@gcc $(FLAGS) -o  $@ $<
+#%.o: %.c
+#	@gcc $(FLAGS) -o $@ -c $<
 
 clean:
 		@/bin/rm -f $(OBJ)
@@ -40,3 +43,4 @@ fclean: clean
 		@make -C libft/ fclean
 
 re: fclean all
+
